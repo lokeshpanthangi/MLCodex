@@ -1,97 +1,139 @@
-import { Code2, Brain, Layers, Database, Cpu, GitBranch, ArrowUpRight } from 'lucide-react';
-
-const features = [
-  {
-    icon: Code2,
-    title: 'Pure Python & NumPy',
-    description: 'No high-level frameworks hiding the magic. Build everything using fundamental building blocks.',
-    gradient: 'from-green-500/20 to-emerald-500/20',
-  },
-  {
-    icon: Brain,
-    title: 'Mathematical Foundations',
-    description: 'Deep dive into the linear algebra, calculus, and probability that power modern AI.',
-    gradient: 'from-purple-500/20 to-violet-500/20',
-  },
-  {
-    icon: Layers,
-    title: 'Layer by Layer',
-    description: 'Understand each component: activation functions, loss landscapes, gradient descent.',
-    gradient: 'from-blue-500/20 to-cyan-500/20',
-  },
-  {
-    icon: Database,
-    title: 'Real Datasets',
-    description: 'Practice with actual data. From MNIST to custom datasets for hands-on experience.',
-    gradient: 'from-orange-500/20 to-amber-500/20',
-  },
-  {
-    icon: Cpu,
-    title: 'GPU Optimization',
-    description: 'Learn to optimize your implementations for modern hardware acceleration.',
-    gradient: 'from-pink-500/20 to-rose-500/20',
-  },
-  {
-    icon: GitBranch,
-    title: 'Production Ready',
-    description: 'Best practices for deploying ML models in real-world applications.',
-    gradient: 'from-teal-500/20 to-cyan-500/20',
-  },
-];
+import { Code2, Brain, Layers, Database, Cpu, GitBranch, ArrowUpRight, Sparkles, Lightbulb, Rocket } from 'lucide-react';
 
 const FeaturesSection = () => {
   return (
     <section className="py-32 relative">
-      {/* Background accent */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-radial from-white/[0.02] to-transparent rounded-full blur-3xl" />
-      </div>
-
       <div className="container mx-auto px-6 relative z-10">
         {/* Section Header */}
-        <div className="text-center mb-20 space-y-4">
-          <p className="text-sm uppercase tracking-widest text-muted-foreground">Why Choose Us</p>
-          <h2 className="text-4xl lg:text-5xl font-bold tracking-tight">
-            Learn ML the <span className="gradient-text">Right Way</span>
+        <div className="max-w-3xl mb-20">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-foreground/5 border border-foreground/10 mb-6">
+            <Sparkles className="w-4 h-4 text-foreground/70" />
+            <span className="text-sm text-foreground/70">Why developers love us</span>
+          </div>
+          <h2 className="text-4xl lg:text-6xl font-bold tracking-tight mb-6">
+            Learn ML the{' '}
+            <span className="bg-gradient-to-r from-teal-500 to-cyan-600 bg-clip-text text-transparent">
+              Right Way
+            </span>
           </h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
-            Our curriculum is designed by ML engineers who believe understanding trumps abstraction.
+          <p className="text-lg text-muted-foreground max-w-2xl leading-relaxed">
+            Our curriculum is designed by ML engineers who believe understanding trumps abstraction. 
+            Build real implementations, not just copy-paste examples.
           </p>
         </div>
 
-        {/* Features Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {features.map((feature, index) => (
-            <div
-              key={index}
-              className="group relative p-8 rounded-2xl bg-card/50 border border-border/50 backdrop-blur-sm card-hover-glow cursor-pointer"
-            >
-              {/* Hover gradient overlay */}
-              <div className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${feature.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
-              
-              <div className="relative z-10">
-                {/* Icon */}
-                <div className="mb-6 inline-flex">
-                  <div className="w-14 h-14 rounded-2xl bg-foreground/5 border border-foreground/10 flex items-center justify-center group-hover:bg-foreground/10 group-hover:border-foreground/20 transition-all duration-300">
-                    <feature.icon className="w-6 h-6 text-muted-foreground group-hover:text-foreground transition-colors duration-300" />
-                  </div>
-                </div>
-
-                {/* Content */}
-                <div className="space-y-3">
-                  <div className="flex items-center justify-between">
-                    <h3 className="text-lg font-semibold text-foreground group-hover:text-foreground transition-colors">
-                      {feature.title}
-                    </h3>
-                    <ArrowUpRight className="w-4 h-4 text-muted-foreground opacity-0 group-hover:opacity-100 group-hover:text-foreground transition-all duration-300 transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                  </div>
-                  <p className="text-muted-foreground text-sm leading-relaxed">
-                    {feature.description}
-                  </p>
-                </div>
+        {/* Bento Grid Layout - 3 Columns */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
+          {/* Large Feature Card - Spans 2 columns */}
+          <div className="md:col-span-2 group relative rounded-3xl bg-card/50 border border-border overflow-hidden cursor-pointer transition-all hover:border-foreground/20 hover:shadow-lg hover:shadow-foreground/5">
+            <div className="relative z-10 p-8 lg:p-10 h-full flex flex-col">
+              <div className="w-16 h-16 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center mb-6">
+                <Code2 className="w-8 h-8 text-emerald-400" />
+              </div>
+              <h3 className="text-2xl lg:text-3xl font-bold text-foreground mb-4">
+                Pure Python & NumPy
+              </h3>
+              <p className="text-muted-foreground leading-relaxed mb-6 flex-1">
+                No high-level frameworks hiding the magic. Build neural networks, optimizers, 
+                and training loops using fundamental building blocks. Understand every line of code.
+              </p>
+              <div className="flex items-center gap-2 text-sm text-foreground/70 group-hover:text-foreground transition-colors">
+                <span>Explore fundamentals</span>
+                <ArrowUpRight className="w-4 h-4" />
               </div>
             </div>
-          ))}
+          </div>
+
+          {/* Math Card */}
+          <div className="group relative rounded-3xl bg-card/50 border border-border p-6 lg:p-8 cursor-pointer transition-all hover:border-foreground/20 hover:shadow-lg hover:shadow-foreground/5">
+            <div className="relative z-10">
+              <div className="w-12 h-12 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center mb-4">
+                <Brain className="w-5 h-5 text-purple-400" />
+              </div>
+              <h3 className="text-lg font-semibold text-foreground mb-2">Mathematical Foundations</h3>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                Deep dive into linear algebra, calculus, and probability.
+              </p>
+            </div>
+          </div>
+
+          {/* Layers Card */}
+          <div className="group relative rounded-3xl bg-card/50 border border-border p-6 lg:p-8 cursor-pointer transition-all hover:border-foreground/20 hover:shadow-lg hover:shadow-foreground/5">
+            <div className="relative z-10">
+              <div className="w-12 h-12 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center mb-4">
+                <Layers className="w-5 h-5 text-blue-400" />
+              </div>
+              <h3 className="text-lg font-semibold text-foreground mb-2">Layer by Layer</h3>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                Understand activations, loss functions, and gradient descent.
+              </p>
+            </div>
+          </div>
+
+          {/* Dataset Card */}
+          <div className="group relative rounded-3xl bg-card/50 border border-border p-6 lg:p-8 cursor-pointer transition-all hover:border-foreground/20 hover:shadow-lg hover:shadow-foreground/5">
+            <div className="relative z-10">
+              <div className="w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center mb-4">
+                <Database className="w-5 h-5 text-amber-400" />
+              </div>
+              <h3 className="text-lg font-semibold text-foreground mb-2">Real Datasets</h3>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                Practice with MNIST, CIFAR, and custom datasets.
+              </p>
+            </div>
+          </div>
+
+          {/* Interactive Learning Card */}
+          <div className="group relative rounded-3xl bg-card/50 border border-border p-6 lg:p-8 cursor-pointer transition-all hover:border-foreground/20 hover:shadow-lg hover:shadow-foreground/5">
+            <div className="relative z-10">
+              <div className="w-12 h-12 rounded-xl bg-yellow-500/10 border border-yellow-500/20 flex items-center justify-center mb-4">
+                <Lightbulb className="w-5 h-5 text-yellow-400" />
+              </div>
+              <h3 className="text-lg font-semibold text-foreground mb-2">Interactive Learning</h3>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                Hands-on exercises with instant feedback.
+              </p>
+            </div>
+          </div>
+
+          {/* GPU Card */}
+          <div className="group relative rounded-3xl bg-card/50 border border-border p-6 lg:p-8 cursor-pointer transition-all hover:border-foreground/20 hover:shadow-lg hover:shadow-foreground/5">
+            <div className="relative z-10">
+              <div className="w-12 h-12 rounded-xl bg-rose-500/10 border border-rose-500/20 flex items-center justify-center mb-4">
+                <Cpu className="w-5 h-5 text-rose-400" />
+              </div>
+              <h3 className="text-lg font-semibold text-foreground mb-2">GPU Optimization</h3>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                Learn to optimize for modern hardware acceleration.
+              </p>
+            </div>
+          </div>
+
+          {/* Production Card */}
+          <div className="group relative rounded-3xl bg-card/50 border border-border p-6 lg:p-8 cursor-pointer transition-all hover:border-foreground/20 hover:shadow-lg hover:shadow-foreground/5">
+            <div className="relative z-10">
+              <div className="w-12 h-12 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center mb-4">
+                <GitBranch className="w-5 h-5 text-cyan-400" />
+              </div>
+              <h3 className="text-lg font-semibold text-foreground mb-2">Production Ready</h3>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                Best practices for deploying ML models.
+              </p>
+            </div>
+          </div>
+
+          {/* Projects Card */}
+          <div className="group relative rounded-3xl bg-card/50 border border-border p-6 lg:p-8 cursor-pointer transition-all hover:border-foreground/20 hover:shadow-lg hover:shadow-foreground/5">
+            <div className="relative z-10">
+              <div className="w-12 h-12 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center mb-4">
+                <Rocket className="w-5 h-5 text-indigo-400" />
+              </div>
+              <h3 className="text-lg font-semibold text-foreground mb-2">Build Projects</h3>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                Create portfolio-ready ML applications.
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </section>

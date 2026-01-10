@@ -1,95 +1,104 @@
-import { ArrowRight, Sparkles } from 'lucide-react';
+import { ArrowRight, BookOpen, Play } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import CodeTerminal from './CodeTerminal';
 import { Link } from 'react-router-dom';
 
 const HeroSection = () => {
   return (
-    <section className="relative min-h-screen flex items-center pt-20 overflow-hidden">
-      {/* Animated Background Elements */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {/* Gradient orbs */}
-        <div className="absolute top-1/4 -left-20 w-[500px] h-[500px] rounded-full bg-gradient-to-br from-white/[0.03] to-transparent blur-3xl animate-blob" />
-        <div className="absolute top-1/3 right-0 w-[600px] h-[600px] rounded-full bg-gradient-to-bl from-white/[0.02] to-transparent blur-3xl animate-blob animation-delay-2000" />
-        <div className="absolute -bottom-20 left-1/3 w-[400px] h-[400px] rounded-full bg-gradient-to-t from-white/[0.02] to-transparent blur-3xl animate-blob animation-delay-4000" />
-        
-        {/* Grid pattern */}
-        <div 
-          className="absolute inset-0 opacity-[0.015]"
-          style={{
-            backgroundImage: `linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
-                             linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)`,
-            backgroundSize: '60px 60px',
-          }}
-        />
-      </div>
-
+    <section className="relative min-h-screen flex items-center pt-20">
       <div className="container mx-auto px-6 relative z-10">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
-          {/* Left Content */}
-          <div className="space-y-10">
-            {/* Badge */}
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-foreground/5 border border-foreground/10 backdrop-blur-sm">
-              <Sparkles className="w-4 h-4 text-foreground/70" />
-              <span className="text-sm text-foreground/70">v2.0 Released — Now with Transformers</span>
-            </div>
-
-            {/* Headline */}
-            <div className="space-y-6">
-              <h1 className="text-5xl lg:text-7xl font-bold leading-[1.1] tracking-tight">
-                Build Machine Learning.{' '}
-                <span className="gradient-text">
-                  From the Metal Up.
+        {/* Centered Content Layout */}
+        <div className="max-w-5xl mx-auto text-center mb-16">
+          {/* Main Headline */}
+          <h1 className="text-5xl md:text-6xl lg:text-8xl font-bold leading-[1.05] tracking-tight mb-8">
+            <span className="block">Build Machine Learning</span>
+            <span className="block mt-2">
+              <span className="relative inline-block">
+                <span className="bg-gradient-to-r from-teal-500 via-teal-600 to-cyan-600 bg-clip-text text-transparent">
+                  From the Metal Up
                 </span>
-              </h1>
+                <span className="absolute -bottom-2 left-0 right-0 h-px bg-gradient-to-r from-transparent via-teal-500/30 to-transparent" />
+              </span>
+            </span>
+          </h1>
 
-              <p className="text-lg lg:text-xl text-muted-foreground max-w-xl leading-relaxed">
-                Master the math and algorithms behind AI. No black boxes, just pure Python and NumPy. 
-                Learn by building real implementations from scratch.
-              </p>
-            </div>
+          {/* Subheadline */}
+          <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed mb-10">
+            Master the math and algorithms behind AI. No black boxes, just pure Python and NumPy. 
+            Learn by building real implementations from scratch.
+          </p>
 
-            {/* CTAs */}
-            <div className="flex flex-wrap gap-4">
-              <Link to="/curriculum">
-                <Button variant="hero" size="lg" className="group h-14 px-8 text-base">
-                  Start Learning
-                  <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
-                </Button>
-              </Link>
-              <Button variant="glass" size="lg" className="h-14 px-8 text-base">
-                View on GitHub
+          {/* CTA Buttons */}
+          <div className="flex flex-wrap items-center justify-center gap-4 mb-16">
+            <Link to="/curriculum">
+              <Button variant="hero" size="lg" className="h-14 px-8 text-base">
+                Start Learning Free
+                <ArrowRight className="w-5 h-5" />
               </Button>
-            </div>
-
-            {/* Stats */}
-            <div className="flex gap-12 pt-6">
-              {[
-                { value: '50+', label: 'Modules' },
-                { value: '10K+', label: 'Learners' },
-                { value: '100%', label: 'From Scratch' },
-              ].map((stat) => (
-                <div key={stat.label} className="group">
-                  <div className="text-3xl font-bold text-foreground group-hover:gradient-text transition-all duration-300">
-                    {stat.value}
-                  </div>
-                  <div className="text-sm text-muted-foreground mt-1">{stat.label}</div>
-                </div>
-              ))}
-            </div>
+            </Link>
+            <Button variant="glass" size="lg" className="h-14 px-8 text-base">
+              <BookOpen className="w-4 h-4 mr-1" />
+              Docs
+            </Button>
           </div>
 
-          {/* Right Content - Code Terminal */}
-          <div className="lg:pl-8 relative">
-            {/* Glow behind terminal */}
-            <div className="absolute -inset-4 bg-gradient-to-r from-white/5 via-transparent to-white/5 blur-3xl opacity-50" />
-            <CodeTerminal />
+        </div>
+
+        {/* Bento-style Preview Section */}
+        <div className="max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-6">
+            {/* Main Code Terminal - Spans 2 columns */}
+            <div className="lg:col-span-2">
+              <CodeTerminal />
+            </div>
+
+            {/* Side Cards */}
+            <div className="flex flex-col gap-4 lg:gap-6">
+              {/* Quick Start Card */}
+              <div className="group p-6 rounded-2xl bg-card/50 border border-border hover:border-foreground/20 hover:shadow-lg hover:shadow-foreground/5 transition-all cursor-pointer">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center">
+                    <Play className="w-4 h-4 text-emerald-400" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-foreground">Quick Start</h3>
+                    <p className="text-xs text-muted-foreground">5 min setup</p>
+                  </div>
+                </div>
+                <p className="text-sm text-muted-foreground">
+                  Get started with your first neural network in minutes.
+                </p>
+              </div>
+
+              {/* Community Card */}
+              <div className="group p-6 rounded-2xl bg-card/50 border border-border hover:border-foreground/20 hover:shadow-lg hover:shadow-foreground/5 transition-all cursor-pointer">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="flex -space-x-2">
+                    {[...Array(4)].map((_, i) => (
+                      <div 
+                        key={i} 
+                        className="w-8 h-8 rounded-full bg-gradient-to-br from-foreground/20 to-foreground/5 border-2 border-background flex items-center justify-center text-xs text-foreground/50"
+                      >
+                        {String.fromCharCode(65 + i)}
+                      </div>
+                    ))}
+                    <div className="w-8 h-8 rounded-full bg-foreground/10 border-2 border-background flex items-center justify-center text-xs text-muted-foreground">
+                      +2k
+                    </div>
+                  </div>
+                </div>
+                <h3 className="font-semibold text-foreground mb-1">Join the Community</h3>
+                <p className="text-sm text-muted-foreground">
+                  Learn together with 10k+ developers
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
       {/* Bottom gradient fade */}
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent" />
+      <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-background via-background/80 to-transparent pointer-events-none" />
     </section>
   );
 };

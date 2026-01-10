@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useState, useMemo, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
-import CurriculumSidebar from '@/components/curriculum/CurriculumSidebar';
 import ModuleCard from '@/components/curriculum/ModuleCard';
 import { 
   Binary, 
@@ -16,7 +16,11 @@ import {
   Box,
   Cpu,
   BarChart3,
-  BookOpen
+  BookOpen,
+  Search,
+  Filter,
+  Grid3X3,
+  List
 } from 'lucide-react';
 
 const modules = [
@@ -143,20 +147,57 @@ const modules = [
 ];
 
 const Curriculum = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
   const [activeSection, setActiveSection] = useState('all');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
 
-  const filteredModules = activeSection === 'all' 
-    ? modules 
-    : modules.filter(m => m.section === activeSection);
+  // Read search query from URL on mount
+  useEffect(() => {
+    const urlSearch = searchParams.get('search');
+    if (urlSearch) {
+      setSearchQuery(urlSearch);
+    }
+  }, [searchParams]);
 
-  const sectionTitles: Record<string, string> = {
-    'all': 'All Modules',
-    'foundations': 'Foundations',
-    'neural-networks': 'Neural Networks',
-    'deep-learning': 'Deep Learning',
-    'advanced': 'Advanced Topics',
-    'projects': 'Projects',
+  // Update URL when search changes
+  const handleSearchChange = (value: string) => {
+    setSearchQuery(value);
+    if (value.trim()) {
+      setSearchParams({ search: value });
+    } else {
+      setSearchParams({});
+    }
   };
+
+  const filteredModules = useMemo(() => {
+    let result = modules;
+    
+    // Filter by section
+    if (activeSection !== 'all') {
+      result = result.filter(m => m.section === activeSection);
+    }
+    
+    // Filter by search query
+    if (searchQuery.trim()) {
+      const query = searchQuery.toLowerCase();
+      result = result.filter(m => 
+        m.title.toLowerCase().includes(query) ||
+        m.description.toLowerCase().includes(query)
+      );
+    }
+    
+    return result;
+  }, [activeSection, searchQuery]);
+
+  const sections = [
+    { id: 'all', label: 'All' },
+    { id: 'foundations', label: 'Foundations' },
+    { id: 'neural-networks', label: 'Neural Networks' },
+    { id: 'deep-learning', label: 'Deep Learning' },
+    { id: 'advanced', label: 'Advanced' },
+    { id: 'projects', label: 'Projects' },
+  ];
 
   return (
     <div className="min-h-screen bg-background relative">
@@ -165,102 +206,133 @@ const Curriculum = () => {
       
       <Navbar />
       
-      <div className="flex pt-16">
-        <CurriculumSidebar 
-          activeSection={activeSection} 
-          onSectionChange={setActiveSection} 
-        />
-
-        {/* Main Content */}
-        <main className="flex-1 min-w-0">
-          <div className="p-8 lg:p-12">
-            {/* Header */}
-            <div className="mb-12 relative">
-              {/* Background glow */}
-              <div className="absolute -top-20 -left-20 w-[400px] h-[400px] bg-gradient-to-br from-white/[0.02] to-transparent rounded-full blur-3xl pointer-events-none" />
+      {/* Main Content - Full Width */}
+      <main className="pt-24 pb-12">
+        <div className="container mx-auto px-6">
+          {/* Header */}
+          <div className="mb-12 relative">
+            {/* Background glow */}
+            <div className="absolute -top-20 -left-20 w-[400px] h-[400px] bg-gradient-to-br from-white/[0.02] to-transparent rounded-full blur-3xl pointer-events-none" />
+            
+            <div className="relative max-w-4xl">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-foreground/5 border border-foreground/10 mb-6">
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                <span className="text-sm text-muted-foreground">{modules.length} modules available</span>
+              </div>
               
-              <div className="relative">
-                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-foreground/5 border border-foreground/10 mb-6">
-                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                  <span className="text-sm text-muted-foreground">12 modules available</span>
-                </div>
-                
-                <h1 className="text-4xl lg:text-5xl font-bold text-foreground mb-4 tracking-tight">
-                  {sectionTitles[activeSection]}
-                </h1>
-                <p className="text-lg text-muted-foreground max-w-2xl leading-relaxed">
-                  Master machine learning by building every algorithm from scratch. 
-                  No frameworks, just pure understanding.
-                </p>
-              </div>
-            </div>
-
-            {/* Tabs for Mobile */}
-            <div className="flex gap-2 mb-10 overflow-x-auto pb-2 lg:hidden scrollbar-hide">
-              {['all', 'foundations', 'neural-networks', 'deep-learning', 'advanced', 'projects'].map((section) => (
-                <button
-                  key={section}
-                  onClick={() => setActiveSection(section)}
-                  className={`px-5 py-2.5 rounded-xl text-sm whitespace-nowrap font-medium transition-all duration-200 ${
-                    activeSection === section
-                      ? 'bg-foreground text-background'
-                      : 'bg-foreground/5 border border-foreground/10 text-muted-foreground hover:text-foreground hover:bg-foreground/10'
-                  }`}
-                >
-                  {section === 'all' ? 'All' : section.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')}
-                </button>
-              ))}
-            </div>
-
-            {/* Results count */}
-            <div className="flex items-center justify-between mb-8">
-              <p className="text-sm text-muted-foreground">
-                Showing <span className="text-foreground font-medium">{filteredModules.length}</span> modules
+              <h1 className="text-4xl lg:text-6xl font-bold text-foreground mb-4 tracking-tight">
+                ML Curriculum
+              </h1>
+              <p className="text-lg lg:text-xl text-muted-foreground max-w-2xl leading-relaxed">
+                Master machine learning by building every algorithm from scratch. 
+                No frameworks, just pure understanding.
               </p>
-              <div className="flex items-center gap-2">
-                <span className="text-sm text-muted-foreground">Sort by:</span>
-                <select className="text-sm bg-foreground/5 border border-foreground/10 rounded-lg px-3 py-1.5 text-foreground focus:outline-none focus:ring-2 focus:ring-foreground/20">
-                  <option>Recommended</option>
-                  <option>Difficulty</option>
-                  <option>Duration</option>
-                </select>
-              </div>
             </div>
-
-            {/* Modules Grid */}
-            <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
-              {filteredModules.map((module) => (
-                <ModuleCard
-                  key={module.id}
-                  icon={module.icon}
-                  title={module.title}
-                  description={module.description}
-                  difficulty={module.difficulty}
-                  codePreview={module.codePreview}
-                  estimatedTime={module.estimatedTime}
-                />
-              ))}
-            </div>
-
-            {filteredModules.length === 0 && (
-              <div className="text-center py-20">
-                <div className="w-16 h-16 rounded-2xl bg-foreground/5 border border-foreground/10 flex items-center justify-center mx-auto mb-4">
-                  <BookOpen className="w-8 h-8 text-muted-foreground" />
-                </div>
-                <p className="text-muted-foreground mb-2">No modules found in this section.</p>
-                <button 
-                  onClick={() => setActiveSection('all')}
-                  className="text-sm text-foreground hover:underline"
-                >
-                  View all modules
-                </button>
-              </div>
-            )}
           </div>
 
+          {/* Search and Filters Bar */}
+          <div className="flex flex-col lg:flex-row gap-4 mb-8">
+            {/* Search Input */}
+            <div className="relative flex-1 max-w-md">
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => handleSearchChange(e.target.value)}
+                placeholder="Search modules..."
+                className="w-full pl-12 pr-4 py-3 text-base rounded-xl bg-foreground/5 border border-foreground/10 text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-foreground/20 focus:border-foreground/20 transition-all"
+              />
+            </div>
+
+            {/* View Toggle */}
+            <div className="flex items-center gap-2">
+              <div className="flex rounded-xl bg-foreground/5 border border-foreground/10 p-1">
+                <button
+                  onClick={() => setViewMode('grid')}
+                  className={`p-2 rounded-lg transition-all ${viewMode === 'grid' ? 'bg-foreground/10 text-foreground' : 'text-muted-foreground hover:text-foreground'}`}
+                >
+                  <Grid3X3 className="w-5 h-5" />
+                </button>
+                <button
+                  onClick={() => setViewMode('list')}
+                  className={`p-2 rounded-lg transition-all ${viewMode === 'list' ? 'bg-foreground/10 text-foreground' : 'text-muted-foreground hover:text-foreground'}`}
+                >
+                  <List className="w-5 h-5" />
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* Category Tabs */}
+          <div className="flex gap-2 mb-10 overflow-x-auto pb-2 scrollbar-hide">
+            {sections.map((section) => (
+              <button
+                key={section.id}
+                onClick={() => setActiveSection(section.id)}
+                className={`px-5 py-2.5 rounded-full text-sm whitespace-nowrap font-medium transition-all duration-200 ${
+                  activeSection === section.id
+                    ? 'bg-foreground text-background'
+                    : 'bg-foreground/5 border border-foreground/10 text-muted-foreground hover:text-foreground hover:bg-foreground/10'
+                }`}
+              >
+                {section.label}
+              </button>
+            ))}
+          </div>
+
+          {/* Results count */}
+          <div className="flex items-center justify-between mb-8">
+            <p className="text-sm text-muted-foreground">
+              {searchQuery ? (
+                <>Found <span className="text-foreground font-medium">{filteredModules.length}</span> results for "{searchQuery}"</>
+              ) : (
+                <>Showing <span className="text-foreground font-medium">{filteredModules.length}</span> modules</>
+              )}
+            </p>
+          </div>
+
+          {/* Modules Grid */}
+          <div className={viewMode === 'grid' 
+            ? "grid md:grid-cols-2 xl:grid-cols-3 gap-6" 
+            : "flex flex-col gap-4"
+          }>
+            {filteredModules.map((module) => (
+              <ModuleCard
+                key={module.id}
+                icon={module.icon}
+                title={module.title}
+                description={module.description}
+                difficulty={module.difficulty}
+                codePreview={module.codePreview}
+                estimatedTime={module.estimatedTime}
+                viewMode={viewMode}
+              />
+            ))}
+          </div>
+
+          {filteredModules.length === 0 && (
+            <div className="text-center py-20">
+              <div className="w-16 h-16 rounded-2xl bg-foreground/5 border border-foreground/10 flex items-center justify-center mx-auto mb-4">
+                <BookOpen className="w-8 h-8 text-muted-foreground" />
+              </div>
+              <p className="text-foreground font-medium mb-2">No modules found</p>
+              <p className="text-muted-foreground mb-4">
+                {searchQuery ? `No results for "${searchQuery}"` : 'No modules in this section.'}
+              </p>
+              <button 
+                onClick={() => { setActiveSection('all'); setSearchQuery(''); }}
+                className="text-sm text-foreground hover:underline"
+              >
+                Clear filters
+              </button>
+            </div>
+          )}
+        </div>
+
+        <div className="mt-20">
           <Footer />
-        </main>
-      </div>
+        </div>
+      </main>
     </div>
   );
 };
