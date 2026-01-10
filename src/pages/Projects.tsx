@@ -9,15 +9,6 @@ import {
   Users, 
   Star, 
   GitFork,
-  Eye,
-  Brain,
-  Image,
-  MessageSquare,
-  Gamepad2,
-  TrendingUp,
-  Fingerprint,
-  Music,
-  Zap,
   Filter,
   Search,
   ChevronRight
@@ -30,7 +21,6 @@ interface Project {
   slug: string;
   description: string;
   longDescription: string;
-  icon: typeof Brain;
   difficulty: 'beginner' | 'intermediate' | 'advanced';
   category: string;
   tags: string[];
@@ -50,7 +40,6 @@ const projects: Project[] = [
     slug: 'neural-network',
     description: 'Build a complete neural network using only NumPy. Implement forward propagation, backpropagation, and gradient descent.',
     longDescription: 'Master the fundamentals by implementing a fully-connected neural network from the ground up. You\'ll understand every matrix multiplication and gradient calculation.',
-    icon: Brain,
     difficulty: 'intermediate',
     category: 'Deep Learning',
     tags: ['NumPy', 'Backpropagation', 'MLP'],
@@ -68,7 +57,6 @@ const projects: Project[] = [
     slug: 'cnn-image-classifier',
     description: 'Create a convolutional neural network that can classify images with high accuracy.',
     longDescription: 'Learn to build and train CNNs for image recognition. Implement convolutions, pooling, and feature extraction from scratch.',
-    icon: Image,
     difficulty: 'advanced',
     category: 'Computer Vision',
     tags: ['CNN', 'MNIST', 'Image Processing'],
@@ -86,7 +74,6 @@ const projects: Project[] = [
     slug: 'sentiment-analyzer',
     description: 'Build an NLP model that can detect emotions and sentiment in text.',
     longDescription: 'Dive into natural language processing by creating a sentiment analysis system using word embeddings and recurrent networks.',
-    icon: MessageSquare,
     difficulty: 'intermediate',
     category: 'NLP',
     tags: ['RNN', 'Word2Vec', 'Text Classification'],
@@ -103,7 +90,6 @@ const projects: Project[] = [
     slug: 'game-ai-agent',
     description: 'Train an AI to play games using reinforcement learning techniques.',
     longDescription: 'Implement Q-learning and policy gradients to create an intelligent agent that learns to master games through trial and error.',
-    icon: Gamepad2,
     difficulty: 'advanced',
     category: 'Reinforcement Learning',
     tags: ['Q-Learning', 'Policy Gradient', 'OpenAI Gym'],
@@ -121,7 +107,6 @@ const projects: Project[] = [
     slug: 'stock-predictor',
     description: 'Use time series analysis and LSTMs to forecast stock prices.',
     longDescription: 'Learn to handle sequential data and implement LSTM networks for financial predictions and time series forecasting.',
-    icon: TrendingUp,
     difficulty: 'intermediate',
     category: 'Time Series',
     tags: ['LSTM', 'Time Series', 'Finance'],
@@ -138,7 +123,6 @@ const projects: Project[] = [
     slug: 'face-recognition',
     description: 'Build a facial recognition system using embeddings and similarity metrics.',
     longDescription: 'Create a complete face recognition pipeline from detection to embedding extraction and identity verification.',
-    icon: Fingerprint,
     difficulty: 'advanced',
     category: 'Computer Vision',
     tags: ['Face Detection', 'Embeddings', 'Siamese Networks'],
@@ -155,7 +139,6 @@ const projects: Project[] = [
     slug: 'music-generator',
     description: 'Create an AI that composes original music using generative models.',
     longDescription: 'Explore generative AI by building a music composition system that learns patterns from existing songs.',
-    icon: Music,
     difficulty: 'advanced',
     category: 'Generative AI',
     tags: ['RNN', 'MIDI', 'Sequence Generation'],
@@ -172,7 +155,6 @@ const projects: Project[] = [
     slug: 'linear-regression',
     description: 'Start with the basics - implement linear regression from first principles.',
     longDescription: 'Perfect for beginners. Understand gradient descent, loss functions, and optimization by building the simplest ML model.',
-    icon: Zap,
     difficulty: 'beginner',
     category: 'Fundamentals',
     tags: ['Gradient Descent', 'NumPy', 'Optimization'],
@@ -270,7 +252,6 @@ const Projects = () => {
           
           <div className="flex gap-6 px-6 overflow-x-auto pb-4 scrollbar-hide">
             {featuredProjects.map((project) => {
-              const Icon = project.icon;
               return (
                 <Link
                   key={project.id}
@@ -289,20 +270,7 @@ const Projects = () => {
                   
                   {/* Content */}
                   <div className="relative z-10 p-8">
-                    <div className="flex items-start justify-between mb-6">
-                      <div className={`w-14 h-14 rounded-2xl flex items-center justify-center ${
-                        project.color === 'emerald' ? 'bg-emerald-500/10 border-emerald-500/20' :
-                        project.color === 'purple' ? 'bg-purple-500/10 border-purple-500/20' :
-                        project.color === 'rose' ? 'bg-rose-500/10 border-rose-500/20' :
-                        'bg-teal-500/10 border-teal-500/20'
-                      } border`}>
-                        <Icon className={`w-7 h-7 ${
-                          project.color === 'emerald' ? 'text-emerald-400' :
-                          project.color === 'purple' ? 'text-purple-400' :
-                          project.color === 'rose' ? 'text-rose-400' :
-                          'text-teal-400'
-                        }`} />
-                      </div>
+                    <div className="flex items-start justify-end mb-6">
                       <span className={`text-xs px-3 py-1 rounded-full border font-medium ${difficultyStyles[project.difficulty]}`}>
                         {project.difficulty.charAt(0).toUpperCase() + project.difficulty.slice(1)}
                       </span>
@@ -374,7 +342,6 @@ const Projects = () => {
         <section className="container mx-auto px-6">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredProjects.map((project) => {
-              const Icon = project.icon;
               return (
                 <Link
                   key={project.id}
@@ -395,28 +362,7 @@ const Projects = () => {
                   
                   <div className="relative z-10 p-6">
                     {/* Header */}
-                    <div className="flex items-start justify-between mb-5">
-                      <div className={`w-12 h-12 rounded-xl flex items-center justify-center border ${
-                        project.color === 'emerald' ? 'bg-emerald-500/10 border-emerald-500/20' :
-                        project.color === 'purple' ? 'bg-purple-500/10 border-purple-500/20' :
-                        project.color === 'blue' ? 'bg-blue-500/10 border-blue-500/20' :
-                        project.color === 'rose' ? 'bg-rose-500/10 border-rose-500/20' :
-                        project.color === 'amber' ? 'bg-amber-500/10 border-amber-500/20' :
-                        project.color === 'cyan' ? 'bg-cyan-500/10 border-cyan-500/20' :
-                        project.color === 'violet' ? 'bg-violet-500/10 border-violet-500/20' :
-                        'bg-teal-500/10 border-teal-500/20'
-                      }`}>
-                        <Icon className={`w-5 h-5 ${
-                          project.color === 'emerald' ? 'text-emerald-400' :
-                          project.color === 'purple' ? 'text-purple-400' :
-                          project.color === 'blue' ? 'text-blue-400' :
-                          project.color === 'rose' ? 'text-rose-400' :
-                          project.color === 'amber' ? 'text-amber-400' :
-                          project.color === 'cyan' ? 'text-cyan-400' :
-                          project.color === 'violet' ? 'text-violet-400' :
-                          'text-teal-400'
-                        }`} />
-                      </div>
+                    <div className="flex items-start justify-end mb-5">
                       <span className={`text-xs px-2.5 py-1 rounded-full border font-medium ${difficultyStyles[project.difficulty]}`}>
                         {project.difficulty.charAt(0).toUpperCase() + project.difficulty.slice(1)}
                       </span>

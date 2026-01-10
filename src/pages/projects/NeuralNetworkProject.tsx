@@ -4,7 +4,6 @@ import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import { CodeBlock, Callout, OutputBlock, InlineCode } from '@/components/project/CodeBlock';
 import { 
-  Brain, 
   ChevronRight, 
   Clock, 
   Users, 
@@ -343,30 +342,41 @@ Neural Network from Scratch Project
           </div>
 
           <div className="flex gap-8 lg:gap-12">
-            {/* Left Sidebar - Table of Contents (Desktop) */}
+            {/* Left Sidebar - Other Projects (Desktop) */}
             <aside className="hidden lg:block w-64 shrink-0">
               <div className="sticky top-28">
                 <div className="flex items-center gap-2 mb-4">
-                  <List className="w-4 h-4 text-muted-foreground" />
-                  <span className="text-sm font-medium text-foreground">On this page</span>
+                  <BookOpen className="w-4 h-4 text-muted-foreground" />
+                  <span className="text-sm font-medium text-foreground">Other Projects</span>
                 </div>
                 <nav className="space-y-1">
-                  {sections.map((section) => (
-                    <button
-                      key={section.id}
-                      onClick={() => scrollToSection(section.id)}
-                      className={`block w-full text-left text-sm py-1.5 transition-colors ${
-                        section.parent ? 'pl-4' : ''
-                      } ${
-                        activeSection === section.id
-                          ? 'text-teal-500 font-medium'
-                          : 'text-muted-foreground hover:text-foreground'
-                      }`}
+                  {[
+                    { slug: 'linear-regression', title: 'Linear Regression Engine' },
+                    { slug: 'cnn-image-classifier', title: 'Image Classifier CNN' },
+                    { slug: 'sentiment-analyzer', title: 'Sentiment Analyzer' },
+                    { slug: 'game-ai-agent', title: 'Game AI Agent' },
+                    { slug: 'stock-predictor', title: 'Stock Price Predictor' },
+                    { slug: 'face-recognition', title: 'Face Recognition System' },
+                    { slug: 'music-generator', title: 'Music Generator' },
+                  ].map((project) => (
+                    <Link
+                      key={project.slug}
+                      to={`/projects/${project.slug}`}
+                      className="block py-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
                     >
-                      {section.title}
-                    </button>
+                      {project.title}
+                    </Link>
                   ))}
                 </nav>
+
+                {/* View All Projects */}
+                <Link 
+                  to="/projects"
+                  className="flex items-center gap-2 mt-4 text-sm text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  View all projects
+                  <ChevronRight className="w-4 h-4" />
+                </Link>
 
                 {/* Progress Tracker */}
                 <div className="mt-8 pt-6 border-t border-border">
@@ -381,6 +391,34 @@ Neural Network from Scratch Project
                     />
                   </div>
                 </div>
+
+                {/* Quick Actions */}
+                <div className="mt-6 pt-6 border-t border-border">
+                  <div className="text-sm font-medium text-foreground mb-3">Quick Actions</div>
+                  <div className="space-y-2">
+                    <a 
+                      href="https://github.com" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors py-1"
+                    >
+                      <Github className="w-4 h-4" />
+                      View Source
+                    </a>
+                    <button 
+                      onClick={handleDownloadPDF}
+                      disabled={isDownloading}
+                      className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors py-1 disabled:opacity-50"
+                    >
+                      {isDownloading ? (
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                      ) : (
+                        <Download className="w-4 h-4" />
+                      )}
+                      {isDownloading ? 'Downloading...' : 'Download PDF'}
+                    </button>
+                  </div>
+                </div>
               </div>
             </aside>
 
@@ -388,19 +426,14 @@ Neural Network from Scratch Project
             <article className="flex-1 min-w-0 max-w-4xl">
               {/* Header */}
               <header className="mb-12">
-                <div className="flex items-start gap-6 mb-6">
-                  <div className="w-16 h-16 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center shrink-0">
-                    <Brain className="w-8 h-8 text-emerald-400" />
-                  </div>
-                  <div className="flex-1">
-                    <h1 className="text-4xl lg:text-5xl font-bold tracking-tight mb-4">
-                      Neural Network from Scratch
-                    </h1>
-                    <p className="text-lg text-muted-foreground leading-relaxed">
-                      Build a complete neural network using only Python and NumPy. Learn forward propagation, 
-                      backpropagation, and gradient descent by implementing them yourself.
-                    </p>
-                  </div>
+                <div className="mb-6">
+                  <h1 className="text-4xl lg:text-5xl font-bold tracking-tight mb-4">
+                    Neural Network from Scratch
+                  </h1>
+                  <p className="text-lg text-muted-foreground leading-relaxed">
+                    Build a complete neural network using only Python and NumPy. Learn forward propagation, 
+                    backpropagation, and gradient descent by implementing them yourself.
+                  </p>
                 </div>
 
                 {/* Meta Info */}
@@ -1204,66 +1237,46 @@ plot_decision_boundary(network, X, y)`}
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <Link to="/projects/cnn-image-classifier" className="group p-6 rounded-2xl bg-card/50 border border-border hover:border-foreground/20 hover:shadow-lg hover:shadow-foreground/5 transition-all">
-                    <div className="flex items-start gap-4">
-                      <div className="w-12 h-12 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center shrink-0">
-                        <Brain className="w-6 h-6 text-purple-400" />
-                      </div>
-                      <div>
-                        <h3 className="font-semibold text-foreground mb-1 group-hover:text-teal-500 transition-colors">
-                          Convolutional Neural Networks
-                        </h3>
-                        <p className="text-sm text-muted-foreground">
-                          Learn to build CNNs for image classification
-                        </p>
-                      </div>
+                    <div>
+                      <h3 className="font-semibold text-foreground mb-1 group-hover:text-teal-500 transition-colors">
+                        Convolutional Neural Networks
+                      </h3>
+                      <p className="text-sm text-muted-foreground">
+                        Learn to build CNNs for image classification
+                      </p>
                     </div>
                   </Link>
 
                   <Link to="/projects/backpropagation-deep-dive" className="group p-6 rounded-2xl bg-card/50 border border-border hover:border-foreground/20 hover:shadow-lg hover:shadow-foreground/5 transition-all">
-                    <div className="flex items-start gap-4">
-                      <div className="w-12 h-12 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center shrink-0">
-                        <Brain className="w-6 h-6 text-blue-400" />
-                      </div>
-                      <div>
-                        <h3 className="font-semibold text-foreground mb-1 group-hover:text-teal-500 transition-colors">
-                          Backpropagation Deep Dive
-                        </h3>
-                        <p className="text-sm text-muted-foreground">
-                          Understand the math behind gradient computation
-                        </p>
-                      </div>
+                    <div>
+                      <h3 className="font-semibold text-foreground mb-1 group-hover:text-teal-500 transition-colors">
+                        Backpropagation Deep Dive
+                      </h3>
+                      <p className="text-sm text-muted-foreground">
+                        Understand the math behind gradient computation
+                      </p>
                     </div>
                   </Link>
 
                   <Link to="/projects/optimizers" className="group p-6 rounded-2xl bg-card/50 border border-border hover:border-foreground/20 hover:shadow-lg hover:shadow-foreground/5 transition-all">
-                    <div className="flex items-start gap-4">
-                      <div className="w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center shrink-0">
-                        <Brain className="w-6 h-6 text-amber-400" />
-                      </div>
-                      <div>
-                        <h3 className="font-semibold text-foreground mb-1 group-hover:text-teal-500 transition-colors">
-                          Advanced Optimizers
-                        </h3>
-                        <p className="text-sm text-muted-foreground">
-                          Implement Adam, RMSprop, and momentum
-                        </p>
-                      </div>
+                    <div>
+                      <h3 className="font-semibold text-foreground mb-1 group-hover:text-teal-500 transition-colors">
+                        Advanced Optimizers
+                      </h3>
+                      <p className="text-sm text-muted-foreground">
+                        Implement Adam, RMSprop, and momentum
+                      </p>
                     </div>
                   </Link>
 
                   <Link to="/projects/mnist" className="group p-6 rounded-2xl bg-card/50 border border-border hover:border-foreground/20 hover:shadow-lg hover:shadow-foreground/5 transition-all">
-                    <div className="flex items-start gap-4">
-                      <div className="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center shrink-0">
-                        <Brain className="w-6 h-6 text-emerald-400" />
-                      </div>
-                      <div>
-                        <h3 className="font-semibold text-foreground mb-1 group-hover:text-teal-500 transition-colors">
-                          MNIST Digit Recognition
-                        </h3>
-                        <p className="text-sm text-muted-foreground">
-                          Apply your network to real image data
-                        </p>
-                      </div>
+                    <div>
+                      <h3 className="font-semibold text-foreground mb-1 group-hover:text-teal-500 transition-colors">
+                        MNIST Digit Recognition
+                      </h3>
+                      <p className="text-sm text-muted-foreground">
+                        Apply your network to real image data
+                      </p>
                     </div>
                   </Link>
                 </div>
@@ -1287,48 +1300,30 @@ plot_decision_boundary(network, X, y)`}
               </div>
             </article>
 
-            {/* Right Sidebar - Quick Actions (Desktop) */}
+            {/* Right Sidebar - On This Page (Desktop) */}
             <aside className="hidden xl:block w-56 shrink-0">
               <div className="sticky top-28">
-                <div className="text-sm font-medium text-foreground mb-4">Quick Actions</div>
-                <div className="space-y-2">
-                  <a 
-                    href="https://github.com" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors py-1.5"
-                  >
-                    <Github className="w-4 h-4" />
-                    View Source
-                  </a>
-                  <button 
-                    onClick={handleDownloadPDF}
-                    disabled={isDownloading}
-                    className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors py-1.5 disabled:opacity-50"
-                  >
-                    {isDownloading ? (
-                      <Loader2 className="w-4 h-4 animate-spin" />
-                    ) : (
-                      <Download className="w-4 h-4" />
-                    )}
-                    {isDownloading ? 'Downloading...' : 'Download PDF'}
-                  </button>
-                  <button className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors py-1.5">
-                    <Star className="w-4 h-4" />
-                    Star Project
-                  </button>
+                <div className="flex items-center gap-2 mb-4">
+                  <List className="w-4 h-4 text-muted-foreground" />
+                  <span className="text-sm font-medium text-foreground">On this page</span>
                 </div>
-
-                <div className="mt-8 pt-6 border-t border-border">
-                  <div className="text-sm font-medium text-foreground mb-3">Tags</div>
-                  <div className="flex flex-wrap gap-2">
-                    {['NumPy', 'Python', 'Deep Learning', 'MLP', 'Backprop'].map(tag => (
-                      <span key={tag} className="text-xs px-2 py-1 rounded-full bg-foreground/5 text-muted-foreground">
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                </div>
+                <nav className="space-y-1 mb-6">
+                  {sections.map((section) => (
+                    <button
+                      key={section.id}
+                      onClick={() => scrollToSection(section.id)}
+                      className={`block w-full text-left text-sm py-1.5 transition-colors ${
+                        section.parent ? 'pl-4' : ''
+                      } ${
+                        activeSection === section.id
+                          ? 'text-teal-500 font-medium'
+                          : 'text-muted-foreground hover:text-foreground'
+                      }`}
+                    >
+                      {section.title}
+                    </button>
+                  ))}
+                </nav>
               </div>
             </aside>
           </div>

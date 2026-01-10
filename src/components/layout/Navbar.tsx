@@ -21,7 +21,7 @@ const Navbar = ({ variant = 'default' }: NavbarProps) => {
     { path: '/', label: 'Home' },
     { path: '/curriculum', label: 'Curriculum' },
     { path: '/projects', label: 'Projects' },
-    { path: '#', label: 'Community' },
+    { path: '/community', label: 'Community' },
   ];
 
   // Handle scroll effect
