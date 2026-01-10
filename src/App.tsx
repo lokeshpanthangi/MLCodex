@@ -7,6 +7,8 @@ import { ThemeProvider } from "@/contexts/ThemeContext";
 import { useEffect } from "react";
 import Index from "./pages/Index";
 import Curriculum from "./pages/Curriculum";
+import Projects from "./pages/Projects";
+import NeuralNetworkProject from "./pages/projects/NeuralNetworkProject";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -33,6 +35,8 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/curriculum" element={<Curriculum />} />
+            <Route path="/projects" element={<Projects />} />
+            <Route path="/projects/neural-network" element={<NeuralNetworkProject />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

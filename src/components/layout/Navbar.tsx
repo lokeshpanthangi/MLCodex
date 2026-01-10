@@ -3,7 +3,11 @@ import { Brain, Search, Github, Menu, X, Sun, Moon, Command, ArrowRight, Sparkle
 import { useState, useEffect, useRef } from 'react';
 import { useTheme } from '@/contexts/ThemeContext';
 
-const Navbar = () => {
+interface NavbarProps {
+  variant?: 'default' | 'simple';
+}
+
+const Navbar = ({ variant = 'default' }: NavbarProps) => {
   const location = useLocation();
   const navigate = useNavigate();
   const { theme, toggleTheme } = useTheme();
@@ -16,7 +20,7 @@ const Navbar = () => {
   const navLinks = [
     { path: '/', label: 'Home' },
     { path: '/curriculum', label: 'Curriculum' },
-    { path: '#', label: 'Projects' },
+    { path: '/projects', label: 'Projects' },
     { path: '#', label: 'Community' },
   ];
 
@@ -62,6 +66,103 @@ const Navbar = () => {
       setSearchQuery('');
     }
   };
+
+  // Simple navbar for sub-pages (project details, etc.)
+  if (variant === 'simple') {
+    return (
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-xl border-b border-border">
+        <div className="container mx-auto px-6">
+          <div className="flex items-center justify-between h-14">
+            {/* Logo */}
+            <Link to="/" className="flex items-center gap-2.5 group">
+              <div className={`w-8 h-8 rounded-xl flex items-center justify-center transition-all duration-300 ${
+                theme === 'dark' 
+                  ? 'bg-gradient-to-br from-white/15 to-white/5' 
+                  : 'bg-gradient-to-br from-teal-500/15 to-cyan-500/10'
+              }`}>
+                <Brain className={`w-4 h-4 ${theme === 'dark' ? 'text-white' : 'text-teal-600'}`} />
+              </div>
+              <div className="flex items-baseline gap-0.5">
+                <span className="text-base font-semibold tracking-tight text-foreground">MLEdu</span>
+                <span className="text-xs text-muted-foreground/70 font-medium">.dev</span>
+              </div>
+            </Link>
+
+            {/* Right Side */}
+            <div className="flex items-center gap-3">
+              {/* Nav Links */}
+              <div className="hidden md:flex items-center gap-1">
+                {navLinks.map((link) => (
+                  <Link
+                    key={link.path}
+                    to={link.path}
+                    className={`px-3 py-1.5 text-sm rounded-lg transition-colors ${
+                      location.pathname === link.path
+                        ? 'text-foreground font-medium'
+                        : 'text-muted-foreground hover:text-foreground'
+                    }`}
+                  >
+                    {link.label}
+                  </Link>
+                ))}
+              </div>
+
+              {/* Divider */}
+              <div className="hidden md:block w-px h-5 bg-border" />
+
+              {/* Theme Toggle */}
+              <button
+                onClick={toggleTheme}
+                className="w-8 h-8 rounded-lg flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-foreground/5 transition-colors"
+              >
+                {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+              </button>
+
+              {/* GitHub */}
+              <a
+                href="https://github.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-8 h-8 rounded-lg flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-foreground/5 transition-colors"
+              >
+                <Github className="w-4 h-4" />
+              </a>
+
+              {/* Mobile Menu */}
+              <button
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                className="md:hidden w-8 h-8 rounded-lg flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-foreground/5 transition-colors"
+              >
+                {isMenuOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Mobile Menu Dropdown */}
+        {isMenuOpen && (
+          <div className="md:hidden border-t border-border bg-background">
+            <div className="container mx-auto px-6 py-4 space-y-2">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.path}
+                  to={link.path}
+                  onClick={() => setIsMenuOpen(false)}
+                  className={`block px-3 py-2 rounded-lg text-sm ${
+                    location.pathname === link.path
+                      ? 'text-foreground font-medium bg-foreground/5'
+                      : 'text-muted-foreground hover:text-foreground hover:bg-foreground/5'
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
+      </nav>
+    );
+  }
 
   return (
     <>
