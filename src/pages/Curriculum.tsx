@@ -15,7 +15,8 @@ import {
   GitBranch,
   Box,
   Cpu,
-  BarChart3
+  BarChart3,
+  BookOpen
 } from 'lucide-react';
 
 const modules = [
@@ -148,8 +149,20 @@ const Curriculum = () => {
     ? modules 
     : modules.filter(m => m.section === activeSection);
 
+  const sectionTitles: Record<string, string> = {
+    'all': 'All Modules',
+    'foundations': 'Foundations',
+    'neural-networks': 'Neural Networks',
+    'deep-learning': 'Deep Learning',
+    'advanced': 'Advanced Topics',
+    'projects': 'Projects',
+  };
+
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background relative">
+      {/* Noise overlay */}
+      <div className="noise-overlay" />
+      
       <Navbar />
       
       <div className="flex pt-16">
@@ -162,29 +175,56 @@ const Curriculum = () => {
         <main className="flex-1 min-w-0">
           <div className="p-8 lg:p-12">
             {/* Header */}
-            <div className="mb-10">
-              <h1 className="text-4xl font-bold text-foreground mb-3">ML Curriculum</h1>
-              <p className="text-lg text-muted-foreground max-w-2xl">
-                Master machine learning by building every algorithm from scratch. 
-                No frameworks, just pure understanding.
-              </p>
+            <div className="mb-12 relative">
+              {/* Background glow */}
+              <div className="absolute -top-20 -left-20 w-[400px] h-[400px] bg-gradient-to-br from-white/[0.02] to-transparent rounded-full blur-3xl pointer-events-none" />
+              
+              <div className="relative">
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-foreground/5 border border-foreground/10 mb-6">
+                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                  <span className="text-sm text-muted-foreground">12 modules available</span>
+                </div>
+                
+                <h1 className="text-4xl lg:text-5xl font-bold text-foreground mb-4 tracking-tight">
+                  {sectionTitles[activeSection]}
+                </h1>
+                <p className="text-lg text-muted-foreground max-w-2xl leading-relaxed">
+                  Master machine learning by building every algorithm from scratch. 
+                  No frameworks, just pure understanding.
+                </p>
+              </div>
             </div>
 
             {/* Tabs for Mobile */}
-            <div className="flex gap-2 mb-8 overflow-x-auto pb-2 lg:hidden">
-              {['all', 'foundations', 'neural-networks', 'deep-learning', 'advanced'].map((section) => (
+            <div className="flex gap-2 mb-10 overflow-x-auto pb-2 lg:hidden scrollbar-hide">
+              {['all', 'foundations', 'neural-networks', 'deep-learning', 'advanced', 'projects'].map((section) => (
                 <button
                   key={section}
                   onClick={() => setActiveSection(section)}
-                  className={`px-4 py-2 rounded-lg text-sm whitespace-nowrap transition-colors ${
+                  className={`px-5 py-2.5 rounded-xl text-sm whitespace-nowrap font-medium transition-all duration-200 ${
                     activeSection === section
-                      ? 'bg-primary text-primary-foreground'
-                      : 'bg-card border border-border text-muted-foreground hover:text-foreground'
+                      ? 'bg-foreground text-background'
+                      : 'bg-foreground/5 border border-foreground/10 text-muted-foreground hover:text-foreground hover:bg-foreground/10'
                   }`}
                 >
                   {section === 'all' ? 'All' : section.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')}
                 </button>
               ))}
+            </div>
+
+            {/* Results count */}
+            <div className="flex items-center justify-between mb-8">
+              <p className="text-sm text-muted-foreground">
+                Showing <span className="text-foreground font-medium">{filteredModules.length}</span> modules
+              </p>
+              <div className="flex items-center gap-2">
+                <span className="text-sm text-muted-foreground">Sort by:</span>
+                <select className="text-sm bg-foreground/5 border border-foreground/10 rounded-lg px-3 py-1.5 text-foreground focus:outline-none focus:ring-2 focus:ring-foreground/20">
+                  <option>Recommended</option>
+                  <option>Difficulty</option>
+                  <option>Duration</option>
+                </select>
+              </div>
             </div>
 
             {/* Modules Grid */}
@@ -203,8 +243,17 @@ const Curriculum = () => {
             </div>
 
             {filteredModules.length === 0 && (
-              <div className="text-center py-12">
-                <p className="text-muted-foreground">No modules found in this section.</p>
+              <div className="text-center py-20">
+                <div className="w-16 h-16 rounded-2xl bg-foreground/5 border border-foreground/10 flex items-center justify-center mx-auto mb-4">
+                  <BookOpen className="w-8 h-8 text-muted-foreground" />
+                </div>
+                <p className="text-muted-foreground mb-2">No modules found in this section.</p>
+                <button 
+                  onClick={() => setActiveSection('all')}
+                  className="text-sm text-foreground hover:underline"
+                >
+                  View all modules
+                </button>
               </div>
             )}
           </div>
