@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 const HeroSection = () => {
   return (
-    <section className="relative min-h-screen flex items-center pt-20">
+    <section className="relative min-h-screen flex items-center pt-20 lg:pt-32">
       <div className="container mx-auto px-6 relative z-10">
         {/* Centered Content Layout */}
         <div className="max-w-5xl mx-auto text-center mb-16">
