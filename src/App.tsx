@@ -11,6 +11,7 @@ import Projects from "./pages/Projects";
 import Community from "./pages/Community";
 import NeuralNetworkProject from "./pages/projects/NeuralNetworkProject";
 import ModelDeployment from "./pages/docs/ModelDeployment";
+import LinearRegressionModule from "./pages/machinelearning/linearregression";
 import BatchDeploymentAWS from "./pages/docs/BatchDeploymentAWS";
 import BatchDeploymentGCP from "./pages/docs/BatchDeploymentGCP";
 import OnlineDeploymentAWS from "./pages/docs/OnlineDeploymentAWS";
@@ -45,6 +46,7 @@ const App = () => (
             <Route path="/community" element={<Community />} />
             <Route path="/projects/neural-network" element={<NeuralNetworkProject />} />
             <Route path="/docs/model-deployment" element={<ModelDeployment />} />
+            <Route path="/docs/linear-regression" element={<LinearRegressionModule />} />
             <Route path="/docs/batchdeployment/aws" element={<BatchDeploymentAWS />} />
             <Route path="/docs/batchdeployment/gcp" element={<BatchDeploymentGCP />} />
             <Route path="/docs/onlinedeployment/aws" element={<OnlineDeploymentAWS />} />
