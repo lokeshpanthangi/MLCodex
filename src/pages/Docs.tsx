@@ -84,6 +84,7 @@ const modules: Module[] = [
   },
   {
     id: 5,
+    slug: 'small-agent',
     icon: Bot,
     title: 'Build a Small Agent',
     description: 'Create an autonomous AI agent with tool use, reasoning loops, and structured action planning.',
@@ -94,6 +95,7 @@ const modules: Module[] = [
   },
   {
     id: 6,
+    slug: 'prompt-engineering',
     icon: Wand2,
     title: 'Prompt Engineering Patterns',
     description: 'Master chain-of-thought, few-shot, and system prompt techniques for reliable LLM outputs.',

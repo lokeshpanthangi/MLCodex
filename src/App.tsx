@@ -18,6 +18,8 @@ import OnlineDeploymentAWS from "./pages/docs/OnlineDeploymentAWS";
 import OnlineDeploymentGCP from "./pages/docs/OnlineDeploymentGCP";
 import BasicChatbot from "./pages/docs/BasicChatbot";
 import BasicRAG from "./pages/docs/BasicRAG";
+import SmallAgent from "./pages/docs/SmallAgent";
+import PromptEngineering from "./pages/docs/PromptEngineering";
 import Assignments from "./pages/Assignments";
 import BasicRAGAssignment from "./pages/assignments/BasicRAGAssignment";
 import NotFound from "./pages/NotFound";
@@ -59,6 +61,8 @@ const App = () => (
             <Route path="/docs/onlinedeployment/gcp" element={<OnlineDeploymentGCP />} />
             <Route path="/docs/basic-chatbot" element={<BasicChatbot />} />
             <Route path="/docs/basic-rag" element={<BasicRAG />} />
+            <Route path="/docs/small-agent" element={<SmallAgent />} />
+            <Route path="/docs/prompt-engineering" element={<PromptEngineering />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
